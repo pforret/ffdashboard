@@ -14,25 +14,27 @@ Firefox dashboard showing URLs in a loop
 
 ```
 Program : ffdashboard  by peter@forret.com
-Version : v0.0.1 (2022-11-07 14:38)
+Version : v0.0.2 (2022-11-07 20:53)
 Purpose : Firefox dashboard showing URLs in a loop
-Usage   : ffdashboard [-h] [-q] [-v] [-f] [-l <log_dir>] [-t <tmp_dir>] [-d <delay>] <action> <input?>
+Usage   : ffdashboard [-h] [-q] [-v] [-f] [-k] [-l <log_dir>] [-t <tmp_dir>] [-d <delay>] [-b <browser>] <action> <input?>
 Flags, options and parameters:
     -h|--help        : [flag] show usage [default: off]
     -q|--quiet       : [flag] no output [default: off]
     -v|--verbose     : [flag] also show debug messages [default: off]
     -f|--force       : [flag] do not ask for confirmation (always yes) [default: off]
+    -k|--kiosk       : [flag] run in kiosk mode (full screen) [default: off]
     -l|--log_dir <?> : [option] folder for log files   [default: ./log]
     -t|--tmp_dir <?> : [option] folder for temp files  [default: ./.tmp]
-    -d|--delay <?>   : [option] cwseconds between each URL  [default: 30]
-    <action>         : [choice] action to perform  [options: show,action2,check,env,update]
+    -d|--delay <?>   : [option] seconds between each URL  [default: 30]
+    -b|--browser <?> : [option] browser to use (firefox/chrome)  [default: firefox]
+    <action>         : [choice] action to perform  [options: show,url,check,env,update]
     <input>          : [parameter] input file (optional)
-                                
+                                  @github.com:pforret/ffdashboard.git
 ### TIPS & EXAMPLES
 * use ffdashboard show [file] to show list of URLs in a loop
   ffdashboard show urls.txt
-* use ffdashboard action2 to ...
-  ffdashboard action2
+* use ffdashboard url to ...
+  ffdashboard url
 * use ffdashboard check to check if this script is ready to execute and what values the options/flags are
   ffdashboard check
 * use ffdashboard env to generate an example .env file
@@ -46,8 +48,8 @@ Flags, options and parameters:
 ## ⚡️ Examples
 
 ```bash
-> ffdashboard .
-# start PhpStorm with current folder as project
+> ffdashboard -d 60 show urls.txt
+# show each url for 60 seconds in a endless loop
 ```
 
 ## 🚀 Installation
