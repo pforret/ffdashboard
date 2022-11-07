@@ -20,10 +20,12 @@ flag|h|help|show usage
 flag|q|quiet|no output
 flag|v|verbose|also show debug messages
 flag|f|force|do not ask for confirmation (always yes)
+flag|k|kiosk|run in kiosk mode (full screen)
 option|l|log_dir|folder for log files |./log
 option|t|tmp_dir|folder for temp files|./.tmp
-option|d|delay|cwseconds between each URL|30
-choice|1|action|action to perform|show,action2,check,env,update
+option|d|delay|seconds between each URL|30
+option|b|browser|browser to use (firefox/chrome)|firefox
+choice|1|action|action to perform|show,url,check,env,update
 param|?|input|input file
 " -v -e '^#' -e '^\s*$'
 }
@@ -43,18 +45,29 @@ Script:main() {
       #TIP: use «$script_prefix show [file]» to show list of URLs in a loop
       #TIP:> $script_prefix show urls.txt
       [[ ! -f "$input" ]] && IO:die "File [$input] does not exist"
+      local option_kiosk=""
+      # shellcheck disable=SC2154
+      ((kiosk)) && option_kiosk="--kiosk"
+
       while true; do
         while read -r url ; do
-          firefox --kiosk --new-tab "$url" &
+          # shellcheck disable=SC2154
+          IO:debug "$SECONDS. Start $browser: $url ..."
+          "$browser" "$option_kiosk" --new-tab "$url" &>/dev/null &
+          # shellcheck disable=SC2154
           sleep "$delay"
         done < "$input"
       done
       ;;
 
-    action2)
-      #TIP: use «$script_prefix action2» to ...
-      #TIP:> $script_prefix action2
-      do_action2
+    url)
+      #TIP: use «$script_prefix url» to ...
+      #TIP:> $script_prefix url
+      local option_kiosk=""
+      ((kiosk)) && option_kiosk="--kiosk"
+      # shellcheck disable=SC2154
+      IO:debug "$SECONDS. Start $browser: $input ..."
+      "$browser" "$option_kiosk" --new-tab "$input" &>/dev/null &
       ;;
 
     check | env)
@@ -95,8 +108,8 @@ do_show() {
   # (code)
 }
 
-do_action2() {
-  IO:log "action2"
+do_url() {
+  IO:log "url"
   # (code)
 
 }
@@ -879,7 +892,7 @@ function Script:meta() {
   [[ -n "${KSH_VERSION:-}" ]] && shell_brand="ksh" && shell_version="$KSH_VERSION"
   IO:debug "$info_icon Shell type : $shell_brand - version $shell_version"
   if [[ "$shell_brand" == "bash" && "${BASH_VERSINFO:-0}" -lt 4 ]]; then
-    IO:die "Bash version 4 or higher is required - current version = $BASH_VERSINFO"
+    IO:die "Bash version 4 or higher is required - current version = ${BASH_VERSINFO[0]}"
   fi
 
   os_kernel=$(uname -s)
