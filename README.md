@@ -13,19 +13,34 @@ Firefox dashboard showing URLs in a loop
 ## 🔥 Usage
 
 ```
-Program: ffdashboard 0.0.1 by peter@forret.com
-Updated: 2022-11-07
-Description: Firefox dashboard showing URLs in a loop
-Usage: normal.sh [-h] [-q] [-v] [-f] [-l <log_dir>] [-t <tmp_dir>] <action> <input?>
+Program : ffdashboard  by peter@forret.com
+Version : v0.0.1 (2022-11-07 14:38)
+Purpose : Firefox dashboard showing URLs in a loop
+Usage   : ffdashboard [-h] [-q] [-v] [-f] [-l <log_dir>] [-t <tmp_dir>] [-d <delay>] <action> <input?>
 Flags, options and parameters:
     -h|--help        : [flag] show usage [default: off]
     -q|--quiet       : [flag] no output [default: off]
-    -v|--verbose     : [flag] output more [default: off]
+    -v|--verbose     : [flag] also show debug messages [default: off]
     -f|--force       : [flag] do not ask for confirmation (always yes) [default: off]
-    -l|--log_dir <?> : [option] folder for log files   [default: /Users/pforret/log/normal]
-    -t|--tmp_dir <?> : [option] folder for temp files  [default: .tmp]
-    <action>         : [parameter] action to perform: analyze/convert
-    <input>          : [parameter] input file/text (optional)
+    -l|--log_dir <?> : [option] folder for log files   [default: ./log]
+    -t|--tmp_dir <?> : [option] folder for temp files  [default: ./.tmp]
+    -d|--delay <?>   : [option] cwseconds between each URL  [default: 30]
+    <action>         : [choice] action to perform  [options: show,action2,check,env,update]
+    <input>          : [parameter] input file (optional)
+                                
+### TIPS & EXAMPLES
+* use ffdashboard show [file] to show list of URLs in a loop
+  ffdashboard show urls.txt
+* use ffdashboard action2 to ...
+  ffdashboard action2
+* use ffdashboard check to check if this script is ready to execute and what values the options/flags are
+  ffdashboard check
+* use ffdashboard env to generate an example .env file
+  ffdashboard env > .env
+* use ffdashboard update to update to the latest version
+  ffdashboard update
+* >>> bash script created with pforret/bashew
+* >>> for bash development, also check IO:print pforret/setver and pforret/IO:progressbar
 ```
 
 ## ⚡️ Examples
